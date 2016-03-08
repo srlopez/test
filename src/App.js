@@ -14,12 +14,14 @@ import { createStore, applyMiddleware, combineReducers, bindActionCreators } fro
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
 
+
+import { EasyRow, EasyButton } from './components/EasyButton'
+
 //tracers
 const repeat = (str, times) => (new Array(times + 1)).join(str);
 const pad = (num, maxLength) => repeat(`0`, maxLength - num.toString().length) + num;
 const formatTime = (time) => `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}.${pad(time.getMilliseconds(), 3)}`;
 //
-
 
 // REDUX BEGIN
 //Actions
@@ -138,28 +140,36 @@ class App extends Component {
 
     return (
       <View style={styles.container}>
+        <EasyRow color='red' size={15} >
+          <EasyButton label={'#'+this.props.idx} style={{ backgroundColor: 'orange' }} />
+          <EasyButton label='[+]' onPress={() => {this.props.increment()}} />
+          <EasyButton label='[-]' onPress={() => {this.props.decrement()}} />
+          <EasyButton label='update' onPress={() => {this.props.update(this.props.idx)}} />
+          <EasyButton label='remove' onPress={() => {this.props.remove(this.props.idx)}} />
+          <EasyButton label='add' onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}} style={{ backgroundColor: 'coral' }}/>
+        </EasyRow>
 
         <View style={{ flexDirection: 'row', margin: 3}}>
-          <Text style={[styles.button, { backgroundColor: 'orange' }]}>#{this.props.idx}  </Text>
-          <TouchableHighlight
+          <Text style={[styles.button, { backgroundColor: 'orange' }]}> #{this.props.idx} </Text>
+          <TouchableOpacity
             onPress={() => {this.props.increment()}}>
-            <Text style={styles.button}> [+] </Text></TouchableHighlight>
+            <Text style={styles.button}> [+] </Text></TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {this.props.decrement()}}>
-            <Text style={styles.button}> [-] </Text></TouchableHighlight>
+            <Text style={styles.button}> [-] </Text></TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {this.props.update(this.props.idx)}}>
-            <Text style={styles.button}> update </Text></TouchableHighlight>
+            <Text style={styles.button}> update </Text></TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {this.props.remove(this.props.idx)}}>
-            <Text style={styles.button}> remove </Text></TouchableHighlight>
+            <Text style={styles.button}> remove </Text></TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}}>
-            <Text style={styles.button}> add </Text></TouchableHighlight>
+            <Text style={styles.button}> add </Text></TouchableOpacity>
         </View>
 
 
