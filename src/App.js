@@ -123,7 +123,7 @@ class App extends Component {
 
   itemMenu(idx, item){
     Alert.alert(
-      item.name, 'options',
+      item.name, '#'+idx+' options',
       [
         //ERROR Keep an eye in this two lines
         {text: 'update', onPress:() => this.props.update(idx) },
