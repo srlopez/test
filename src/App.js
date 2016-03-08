@@ -119,39 +119,19 @@ class App extends Component {
   constructor(){
     super();
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.dir(this.props);
   }
 
   itemMenu(idx, item){
     Alert.alert(
       item.name, 'options',
       [
+        //ERROR Keep an eye in this two lines
         {text: 'update', onPress:() => this.props.update(idx) },
         {text: 'remove', onPress:() => this.props.remove(idx) },
         {text: 'cancel'}
       ]
     )
   }
-
-  showMenu(rowData, rowID) {
-  Alert.alert(
-      '#'+rowID+'-'+rowData.text,
-      'choose an action',
-        [
-            {text: 'Delete', onPress: () =>
-                this.deleteItem(rowID)},
-            {text: 'Edit', onPress: () => {
-                this.props.navigator.push({
-                    name: rowData && rowData.txt || 'New Item',
-                    component: ToDoEdit,
-                    passProps: { item: rowData, id: rowID }
-                    })
-                }},
-            {text: 'Cancel'}
-        ]
-    );
-}
-
 
   render () {
     const dataSource = this.ds.cloneWithRows(this.props.list);
@@ -205,6 +185,7 @@ class Item extends Component {
     return (
       <View>
         <TouchableHighlight
+          //ERROR Keep an eye on Press and LongPress
           onPress={() => { this.props.onPress( rowID ) }}
           onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
           <View style={styles.container0}>
