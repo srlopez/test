@@ -14,27 +14,25 @@ The app show the list of items, then you can press on buttons:
   * update: to update the item status of the selected item (within index)
   * remove: to delete from list
 
-And the reducer behavior is correct, the status changes in the UPDATE action onn the reducer.
-
-Then on item #3 you can:
+On a item you can:
 
   * press: to update the status
   * long press: to choose update or remove.
 
+All the button, or the press on a item dispatch the same actions.
 
-And the reduce behavior is not the desired, the status changes, but all the remaining items are removed! But the action dispatched is the same!
+And that's all
 
-### If you want to test the quiz ###
+### If you want to test the Quiz ###
 
-After clone this repo:
+After clone this repo, do this to see the Quiz
 
-   1. click 3 'add' , to add some new items
-   2. click 3 '+', to move the idx to #3
+   1. click 3 on 'add' , to add some new items
+   2. click 3 on '+', to move the index to #3
    3. click 'update', and you can see the item changed
    4. press on item #3, and you can see how the remaining items are deleted
 
-
-You can see the redux actions trace, to see how the action type UPDATE behaves different if is invoked from the button 'update', or invoked from the 'press' on item.
+The redux trace, show how the action type UPDATE behaves different if is invoked from the button 'update', or invoked from the 'press' on item.
 
 ### Setup ###
 #### clone this repo: ####
