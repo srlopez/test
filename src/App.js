@@ -43,10 +43,11 @@ const remove    = (idx)  => ({ type: REMOVE, idx })
 const initialState = {
   idx: 0,
   list: [
-    { name: 'Press many times on "add" buton', status: true },
-    { name: 'Or press "+" & "-" to modify the idx', status: true },
-    { name: 'to "remove or "update" the item', status: true },
-    { name: 'Press or LongPress are alowed on item', status: true },
+    { name: 'Do 3 Click on "add" buton', status: true },
+    { name: 'Then 3 Click on "+" to set idx on item #3', status: true },
+    { name: 'Click "update", and the item status changes', status: true },
+    { name: 'Press on item #3, and the remaining disapears', status: true },
+    { name: "I don't want disapears", status: false },
    ]
 }
 //Reducer
@@ -151,6 +152,7 @@ class App extends Component {
 
     return (
       <View style={styles.container}>
+        <Text style={{ fontSize: 90 }}>Quiz</Text>
         <EasyRow color='darkcyan' size={20}>
           <EasyButton label={'#'+this.props.idx} style={{ backgroundColor: 'coral' }} />
           <EasyButton label=' + ' onPress={() => {this.props.increment()}} />
