@@ -14,15 +14,15 @@ The app show the list of items, then you can press on buttons:
   * update: to update the item status of the selected item (within index)
   * remove: to delete from list
 
-And the reducer behavior is correct.
+And the reducer behavior is correct, the status changes in the UPDATE action onn the reducer.
 
-The you can on item:
+Then on item #3 you can:
 
   * press: to update the status
   * long press: to choose update or remove.
 
 
-And the reduce behavior is not the desired.
+And the reduce behavior is not the desired, the status changes, but all the remaining items are removed! But the action dispatched is the same!
 
 ### If you want to test the quiz ###
 
@@ -36,7 +36,8 @@ After clone this repo:
 
 You can see the redux actions trace, to see how the action type UPDATE behaves different if is invoked from the button 'update', or invoked from the 'press' on item.
 
-##### clone this repo: #####
+### Setup ###
+#### clone this repo: ####
 
 Because react is included in react-native, there are some problems of overlap and redux does not work. So you have to erase some duplications 'npm run reset'
 
@@ -52,3 +53,8 @@ Click on the play/run button in Xcode.
 Open the directory in the text editor of your choice.
 
 ![alt tag](https://github.com/srlopez/test/blob/master/ScreenShot.png)
+
+
+### Solution ###
+
+Nobody knows
