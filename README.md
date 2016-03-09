@@ -1,20 +1,35 @@
-Test on React Native with Redux and issues on ListView
+Quiz React Native with Redux
 ========================
 
-Just a simple one file code src/App.js to test the issues
+Just a simple one file code src/App.js to test the issues.
+Well now two files, I made a component to reduce code in the main App, just a EasyButton
 
 ### The App ###
 
-Using Redux and react-redux to store the simple state of a index and a list of objects.
-You can add new items Clicking on 'add' button, and you can update the item status o remove the item clicking on plus or minus to set the index and then 'remove or 'update'
+Is a Simple Redux State of a index and a list of { name: "text", status: "boolean" }
+The app show the list of items, then you can press on buttons:
+  add: to add some new items,
+  +/-: to address the index to the item you choose
+  update: to update the item status of the selected item (within index)
+  remove: to delete from list
 
-You can Press or LongPress on Items but .....
+And the reducer behavior is correct.
 
-### Issues ###
+The you can on item:
+  press: to update the status
+  long press: to choose update or remove.
 
-If you press the 'green' button (update or remove), the redux reducer function does not behave in the same way as if you press (update or remove) in the menu item (longPress), or in the item (Press).
+And the reduce behavior is not the desired.
 
-The behavior is that the redux reducer function delete all items from the above of the index, but with the green buttons is the desired behavior
+### If you want to test the quiz ###
+
+After clone this repo:
+   1.- click 3 'add' , to add some new items
+   2.- click 3 '+', to move the idx to #3
+   3.- click 'update', and you can see the item changed
+   4.- press on item #3, and you can see how the remaining items are deleted
+
+You can see the redux actions trace, to see how the action type UPDATE behaves different if is invoked from the button 'update', or invoked from the 'press' on item.
 
 ##### clone this repo: #####
 

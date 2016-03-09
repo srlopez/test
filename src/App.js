@@ -27,12 +27,14 @@ const formatTime = (time) => `@ ${pad(time.getHours(), 2)}:${pad(time.getMinutes
 //Actions
 const INCREMENT = 'INCREMENT'
 const DECREMENT = 'DECREMENT'
+const SET       = 'SET'
 const ADD       = 'ADD'
 const UPDATE    = 'UPDATE'
 const REMOVE    = 'REMOVE'
 //Actions creators
 const increment = ()     => ({ type: INCREMENT })
 const decrement = ()     => ({ type: DECREMENT })
+const set       = (idx)  => ({ type: SET, idx })
 const add       = (name) => ({ type: ADD, name })
 const update    = (idx)  => ({ type: UPDATE, idx })
 const remove    = (idx)  => ({ type: REMOVE, idx })
@@ -58,20 +60,26 @@ const reducer = (state = initialState, action = {}) => {
     return Object.assign({}, state, { ...state,
       idx: (state.idx+1) % state.list.length
     })
+  case SET:
+    return Object.assign({}, state, { ...state,
+      idx: action.idx
+    })
   case ADD:
     return Object.assign({}, state, { ...state,
       list: [ ...state.list, { name: action.name, status: false }]
     })
   case UPDATE:
-    return Object.assign({}, state, { ...state,
-      list: [
-        ...state.list.slice(0, action.idx),
-        Object.assign({}, state.list[action.idx], {
-          status: !state.list[action.idx].status
-        }),
-        ...state.list.slice(action.idx + 1)
-      ]
+    const head = [...state.list.slice(0, action.idx)]
+    const tail = [...state.list.slice(action.idx + 1)]
+    const newObject = Object.assign({}, state.list[action.idx], {
+      status: !state.list[action.idx].status
     })
+    //debugger;
+    const newState = Object.assign({}, state, {
+      ...state,
+      list: [ ...head, newObject, ...tail]
+    })
+    return newState
   case REMOVE:
     return Object.assign({}, state, { ...state,
       list: [
@@ -98,7 +106,8 @@ const connectComponent = (component) => connect(
     (dispatch) => ({
       increment: () => dispatch(increment()),
       decrement: () => dispatch(decrement()),
-      add: (name) => dispatch(add(name)),
+      set:    (idx) => dispatch(set(idx)),
+      add:   (name) => dispatch(add(name)),
       update: (idx) => dispatch(update(idx)),
       remove: (idx) => dispatch(remove(idx))
     })
@@ -108,7 +117,7 @@ const connectComponent = (component) => connect(
 // APP
 export default class RootComponent extends Component {
   render () {
-    const AppContainer = connectComponent(App); //So now, can pass Store and Actions as props
+    const AppContainer = connectComponent(App);
     return (
       <Provider store={createStoreWithMiddleware(reducer, initialState)}>
         <AppContainer />
@@ -121,8 +130,10 @@ class App extends Component {
   constructor(){
     super();
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.itemMenu = this.itemMenu.bind(this);
   }
 
+  // Binding using of Function.prototype.bind() on ListView renderRow onLongPress
   itemMenu(idx, item){
     Alert.alert(
       item.name, '#'+idx+' options',
@@ -140,45 +151,21 @@ class App extends Component {
 
     return (
       <View style={styles.container}>
-        <EasyRow color='red' size={15} >
-          <EasyButton label={'#'+this.props.idx} style={{ backgroundColor: 'orange' }} />
-          <EasyButton label='[+]' onPress={() => {this.props.increment()}} />
-          <EasyButton label='[-]' onPress={() => {this.props.decrement()}} />
+        <EasyRow color='darkcyan' size={20}>
+          <EasyButton label={'#'+this.props.idx} style={{ backgroundColor: 'coral' }} />
+          <EasyButton label=' + ' onPress={() => {this.props.increment()}} />
+          <EasyButton label=' - ' onPress={() => {this.props.decrement()}} />
           <EasyButton label='update' onPress={() => {this.props.update(this.props.idx)}} />
           <EasyButton label='remove' onPress={() => {this.props.remove(this.props.idx)}} />
-          <EasyButton label='add' onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}} style={{ backgroundColor: 'coral' }}/>
+          <EasyButton label='add' onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}} style={{ backgroundColor: 'green' }}/>
         </EasyRow>
-
-        <View style={{ flexDirection: 'row', margin: 3}}>
-          <Text style={[styles.button, { backgroundColor: 'orange' }]}> #{this.props.idx} </Text>
-          <TouchableOpacity
-            onPress={() => {this.props.increment()}}>
-            <Text style={styles.button}> [+] </Text></TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {this.props.decrement()}}>
-            <Text style={styles.button}> [-] </Text></TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {this.props.update(this.props.idx)}}>
-            <Text style={styles.button}> update </Text></TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {this.props.remove(this.props.idx)}}>
-            <Text style={styles.button}> remove </Text></TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}}>
-            <Text style={styles.button}> add </Text></TouchableOpacity>
-        </View>
-
 
         <ListView style={{flex:1}}
                 dataSource={dataSource}
                 renderRow={(rowData, sectionID, rowID) =>
-                  <Item rowID={rowID} rowData={rowData}
+                  <Item idx={this.props.idx} rowID={rowID} rowData={rowData}
                     onPress={this.props.update}
-                    onLongPress={this.itemMenu.bind(this)}/>
+                    onLongPress={this.itemMenu}/>
                 }
               />
 
@@ -192,15 +179,16 @@ class Item extends Component {
   render() {
     const rowData = this.props.rowData;
     const rowID = this.props.rowID;
+    const idx = this.props.idx;
     return (
       <View>
         <TouchableHighlight
           //ERROR Keep an eye on Press and LongPress
           onPress={() => { this.props.onPress( rowID ) }}
           onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
-          <View style={styles.container0}>
+          <View style={styles.row}>
             <Text
-              style={[styles.txt, rowData.status && styles.up]}>
+              style={[styles.txt, rowData.status && styles.up, idx==rowID && {color: 'black'}]}>
               #{rowID}. {rowData.name}
             </Text>
           </View>
@@ -219,21 +207,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  row:{
+      flexDirection: 'row',
+  },
   txt: {
       fontSize: 16,
       fontWeight: 'normal',
       marginLeft: 5,
       marginTop: 2,
-      color: '#222222',
+      color: 'grey',
   },
   up: {
       fontWeight: 'bold',
       color: 'orange'
   },
-  button: {
-      fontWeight: 'bold',
-      backgroundColor: 'green',
-      color: 'white',
-      margin: 3,
-  }
 })
