@@ -9,17 +9,13 @@ I don't know exacly where is the question. It's about  binding? It's a about ES6
 
 Please help!
 
-I try all these options
 On renderRow of LitsView component
 ```
-onPress={() => {this.props.update( rowID )}} \\prefered
 onPress={() => this.props.update( rowID )}
-onPress={this.props.update}
+
 ```
 On TouchableHighlight of the Child with props rowID a onPress
 ```
-onPress={() => { this.props.onPress( this.props.rowID ) }}    
-onPress={() => this.props.onPress( this.props.rowID )}    
 onPress={this.props.onPress} \\prefered
 ```
 
@@ -74,6 +70,4 @@ Open the directory in the text editor of your choice.
 
 ### Solution ###
 
-Nobody knows
-
-There is a question about bind props. I really need to know whats is wrong
+The question was that rowID is a string not a number, then you have to parseInt before dispatch thge action!

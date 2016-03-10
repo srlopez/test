@@ -70,20 +70,20 @@ const reducer = (state = initialState, action = {}) => {
       list: [ ...state.list, { name: action.name, status: false }]
     })
   case UPDATE:
-    console.log(action.idx);
-    console.log(action.idx+1);
-    const head = state.list.slice(0, action.idx)
-    const tail = state.list.slice(action.idx + 1)
-    const newObject = Object.assign({}, state.list[action.idx], {
-      status: !state.list[action.idx].status
-    })
-    const newState = Object.assign({}, state, {
+    if(action.idx<0) return state;
+    return Object.assign({}, state, {
       ...state,
-      list: [ ...head, newObject, ...tail]
+      list: [
+        ...state.list.slice(0, action.idx),
+        Object.assign({}, state.list[action.idx], {
+          status: !state.list[action.idx].status
+        }),
+        ...state.list.slice(action.idx + 1)]
     })
-    return newState
   case REMOVE:
-    return Object.assign({}, state, { ...state,
+    if(action.idx<0) return state;
+    return Object.assign({}, state, {
+      idx: action.idx==state.list.length-1?action.idx-1:action.idx,
       list: [
         ...state.list.slice(0, action.idx),
         ...state.list.slice(action.idx + 1)
@@ -139,7 +139,6 @@ class App extends Component {
     Alert.alert(
       item.name, '#'+idx+' options',
       [
-        //ERROR Keep an eye in this two lines
         {text: 'update', onPress:() => this.props.update(idx) },
         {text: 'remove', onPress:() => this.props.remove(idx) },
         {text: 'cancel'}
@@ -169,7 +168,7 @@ class App extends Component {
                   //WRONG WAY
                   //  onPress={this.props.update}
                   //  onLongPress={this.itemMenu}
-                  //EVEN WRONG WAY
+                  //RIGHT WAY
                   onPress={() => this.props.update(parseInt(rowID))}
                   onLongPress={() => this.itemMenu(parseInt(rowID), rowData)}
                   />
@@ -193,7 +192,7 @@ class Item extends Component {
           //WRONG
             //onPress={() => { this.props.onPress( rowID ) }}
             //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
-          //RIGHT? NO. WRONG TOO
+          //RIGHT WAY
             onPress={this.props.onPress}
             onLongPress={this.props.onLongPress}>
           <View style={styles.row}>
