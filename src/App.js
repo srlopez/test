@@ -166,11 +166,11 @@ class App extends Component {
                 renderRow={(rowData, sectionID, rowID) =>
                   <Item selected={this.props.idx==rowID} rowID={rowID} rowData={rowData}
                   //WRONG WAY
-                  //  onPress={this.props.update}
-                  //  onLongPress={this.itemMenu}
+                  onPress={() => this.props.update(rowID)}
+                  onLongPress={() => this.itemMenu(rowID, rowData)}
                   //RIGHT WAY
-                  onPress={() => this.props.update(parseInt(rowID))}
-                  onLongPress={() => this.itemMenu(parseInt(rowID), rowData)}
+                  //onPress={() => this.props.update(parseInt(rowID))}
+                  //onLongPress={() => this.itemMenu(parseInt(rowID), rowData)}
                   />
                 }
               />

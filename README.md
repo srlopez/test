@@ -5,19 +5,8 @@ Just a simple one file code src/App.js to test the issues.
 Well now two files, I made a component to reduce code in the main App, just a EasyButton
 A need Help on this question.
 
-I don't know exacly where is the question. It's about  binding? It's a about ES6? It's about RN or Redux?
+Where is exactly the question. It's about binding? It's a about ES6? It's about RN or Redux?
 
-Please help!
-
-On renderRow of LitsView component
-```
-onPress={() => this.props.update( rowID )}
-
-```
-On TouchableHighlight of the Child with props rowID a onPress
-```
-onPress={this.props.onPress} \\prefered
-```
 
 ### The App ###
 
@@ -70,4 +59,4 @@ Open the directory in the text editor of your choice.
 
 ### Solution ###
 
-The question was that rowID is a string not a number, then you have to parseInt before dispatch thge action!
+The right way is in the code!
