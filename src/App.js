@@ -171,8 +171,8 @@ class App extends Component {
                   //  onPress={this.props.update}
                   //  onLongPress={this.itemMenu}
                   //EVEN WRONG WAY
-                  onPress={() => this.props.update(rowID)}
-                  onLongPress={() => this.itemMenu(rowID, rowData)}
+                  onPress={() => {this.props.update(rowID)}}
+                  onLongPress={() => {this.itemMenu(rowID, rowData)}}
                   />
                 }
               />
@@ -195,6 +195,7 @@ class Item extends Component {
             //onPress={() => { this.props.onPress( rowID ) }}
             //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
           //RIGHT? NO. WRONG TOO
+            //onPress={this.props.onPress}
             onPress={this.props.onPress}
             onLongPress={this.props.onLongPress}>
           <View style={styles.row}>

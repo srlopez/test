@@ -5,9 +5,23 @@ Just a simple one file code src/App.js to test the issues.
 Well now two files, I made a component to reduce code in the main App, just a EasyButton
 A need Help on this question.
 
-I don't know exacly where is the question. It's about  binding? It's a about ES6? It's about RN o Redux?
+I don't know exacly where is the question. It's about  binding? It's a about ES6? It's about RN or Redux?
 
 Please help!
+
+I try all these options
+On renderRow of LitsView component
+```
+onPress={() => {this.props.update( rowID )}} \\prefered
+onPress={() => this.props.update( rowID )}
+onPress={this.props.update}
+```
+On TouchableHighlight of the Child with props rowID a onPress
+```
+onPress={() => { this.props.onPress( this.props.rowID ) }}    
+onPress={() => this.props.onPress( this.props.rowID )}    
+onPress={this.props.onPress} \\prefered
+```
 
 ### The App ###
 
