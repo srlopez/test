@@ -70,14 +70,13 @@ const reducer = (state = initialState, action = {}) => {
       list: [ ...state.list, { name: action.name, status: false }]
     })
   case UPDATE:
-    //const head = [...state.list.slice(0, action.idx)]
-    //const tail = [...state.list.slice(action.idx + 1)]
+    console.log(action.idx);
+    console.log(action.idx+1);
     const head = state.list.slice(0, action.idx)
     const tail = state.list.slice(action.idx + 1)
     const newObject = Object.assign({}, state.list[action.idx], {
       status: !state.list[action.idx].status
     })
-    //debugger;
     const newState = Object.assign({}, state, {
       ...state,
       list: [ ...head, newObject, ...tail]
@@ -171,8 +170,8 @@ class App extends Component {
                   //  onPress={this.props.update}
                   //  onLongPress={this.itemMenu}
                   //EVEN WRONG WAY
-                  onPress={() => {this.props.update(rowID)}}
-                  onLongPress={() => {this.itemMenu(rowID, rowData)}}
+                  onPress={() => this.props.update(parseInt(rowID))}
+                  onLongPress={() => this.itemMenu(parseInt(rowID), rowData)}
                   />
                 }
               />
@@ -195,7 +194,6 @@ class Item extends Component {
             //onPress={() => { this.props.onPress( rowID ) }}
             //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
           //RIGHT? NO. WRONG TOO
-            //onPress={this.props.onPress}
             onPress={this.props.onPress}
             onLongPress={this.props.onLongPress}>
           <View style={styles.row}>
