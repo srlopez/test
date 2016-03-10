@@ -172,7 +172,7 @@ class App extends Component {
                   //  onLongPress={this.itemMenu}
                   //EVEN WRONG WAY
                   onPress={() => this.props.update(rowID)}
-                  onLongPress={() => this.itemMenu(rowID, rawData)}
+                  onLongPress={() => this.itemMenu(rowID, rowData)}
                   />
                 }
               />
