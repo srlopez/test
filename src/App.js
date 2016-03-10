@@ -149,30 +149,30 @@ class App extends Component {
   }
 
   render () {
-    const dataSource = this.ds.cloneWithRows(this.props.list);
+
 
     return (
       <View style={styles.container}>
         <Text style={{ fontSize: 90 }}>Quiz</Text>
         <EasyRow color='darkcyan' size={20}>
           <EasyButton label={'#'+this.props.idx} style={{ backgroundColor: 'coral' }} />
-          <EasyButton label=' + ' onPress={() => {this.props.increment()}} />
-          <EasyButton label=' - ' onPress={() => {this.props.decrement()}} />
+          <EasyButton label=' + '    onPress={() => {this.props.increment()}} />
+          <EasyButton label=' - '    onPress={() => {this.props.decrement()}} />
           <EasyButton label='update' onPress={() => {this.props.update(this.props.idx)}} />
           <EasyButton label='remove' onPress={() => {this.props.remove(this.props.idx)}} />
-          <EasyButton label='add' onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}} style={{ backgroundColor: 'green' }}/>
+          <EasyButton label='add'    onPress={() => {this.props.add( 'Buy '+Math.floor((Math.random() * 100) + 1)+' apples')}} style={{ backgroundColor: 'green' }}/>
         </EasyRow>
 
         <ListView style={{flex:1}}
-                dataSource={dataSource}
+                dataSource={this.ds.cloneWithRows(this.props.list)}
                 renderRow={(rowData, sectionID, rowID) =>
-                  <Item idx={this.props.idx} rowID={rowID} rowData={rowData}
-                  //WRONG
-                  //  onPress={() => this.props.update(this.props.idx)}
-                  //  onLongPress={() => this.itemMenu(this.props.idx, rowData)}
-                  //RIGHT
+                  <Item selected={this.props.idx==rowID} rowID={rowID} rowData={rowData}
+                  //WRONG WAY
+                  //  onPress={this.props.update}
+                  //  onLongPress={this.itemMenu}
+                  //EVEN WRONG WAY
                   onPress={() => this.props.update(rowID)}
-                  onLongPress={() => this.itemMenu(rowID, rowData)}
+                  onLongPress={() => this.itemMenu(rowID, rawData)}
                   />
                 }
               />
@@ -187,19 +187,19 @@ class Item extends Component {
   render() {
     const rowData = this.props.rowData;
     const rowID = this.props.rowID;
-    const idx = this.props.idx;
+    const selected = this.props.selected;
     return (
       <View>
         <TouchableHighlight
-          //ERROR Keep an eye on Press and LongPress
-          //onPress={() => { this.props.onPress( rowID ) }}
-          //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
-          //RIGHT If the parameter is on parent
-          onPress={this.props.onPress}
-          onLongPress={this.props.onLongPress}>
+          //WRONG
+            //onPress={() => { this.props.onPress( rowID ) }}
+            //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
+          //RIGHT? NO. WRONG TOO
+            onPress={this.props.onPress}
+            onLongPress={this.props.onLongPress}>
           <View style={styles.row}>
             <Text
-              style={[styles.txt, rowData.status && styles.up, idx==rowID && {color: 'black'}]}>
+              style={[styles.txt, rowData.status && styles.up, selected && {color: 'black'}]}>
               #{rowID}. {rowData.name}
             </Text>
           </View>

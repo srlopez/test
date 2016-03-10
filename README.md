@@ -3,6 +3,11 @@ Quiz - on React Native with Redux
 
 Just a simple one file code src/App.js to test the issues.
 Well now two files, I made a component to reduce code in the main App, just a EasyButton
+A need Help on this question.
+
+I don't know exacly where is the question. It's about  binding? It's a about ES6? It's about RN o Redux?
+
+Please help!
 
 ### The App ###
 
@@ -56,3 +61,5 @@ Open the directory in the text editor of your choice.
 ### Solution ###
 
 Nobody knows
+
+There is a question about bind props. I really need to know whats is wrong
