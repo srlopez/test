@@ -6,7 +6,7 @@ Well now two files, I made a component to reduce code in the main App, just a Ea
 
 ### The App ###
 
-Is a Simple Redux State of a index and a list of { name: "text", status: "boolean" }
+Is a simple Redux State of a index and a list of { name: "text", status: "boolean" }
 The app show the list of items, then you can press on buttons:
 
   * add: to add some new items,

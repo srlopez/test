@@ -70,8 +70,10 @@ const reducer = (state = initialState, action = {}) => {
       list: [ ...state.list, { name: action.name, status: false }]
     })
   case UPDATE:
-    const head = [...state.list.slice(0, action.idx)]
-    const tail = [...state.list.slice(action.idx + 1)]
+    //const head = [...state.list.slice(0, action.idx)]
+    //const tail = [...state.list.slice(action.idx + 1)]
+    const head = state.list.slice(0, action.idx)
+    const tail = state.list.slice(action.idx + 1)
     const newObject = Object.assign({}, state.list[action.idx], {
       status: !state.list[action.idx].status
     })
@@ -131,11 +133,10 @@ class App extends Component {
   constructor(){
     super();
     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.itemMenu = this.itemMenu.bind(this);
   }
 
-  // Binding using of Function.prototype.bind() on ListView renderRow onLongPress
-  itemMenu(idx, item){
+  // Fat arrow to avoid Binding this.itemMenu.bind(this);
+  itemMenu = (idx, item) => {
     Alert.alert(
       item.name, '#'+idx+' options',
       [
@@ -166,8 +167,13 @@ class App extends Component {
                 dataSource={dataSource}
                 renderRow={(rowData, sectionID, rowID) =>
                   <Item idx={this.props.idx} rowID={rowID} rowData={rowData}
-                    onPress={this.props.update}
-                    onLongPress={this.itemMenu}/>
+                  //WRONG
+                  //  onPress={() => this.props.update(this.props.idx)}
+                  //  onLongPress={() => this.itemMenu(this.props.idx, rowData)}
+                  //RIGHT
+                  onPress={() => this.props.update(rowID)}
+                  onLongPress={() => this.itemMenu(rowID, rowData)}
+                  />
                 }
               />
 
@@ -186,8 +192,11 @@ class Item extends Component {
       <View>
         <TouchableHighlight
           //ERROR Keep an eye on Press and LongPress
-          onPress={() => { this.props.onPress( rowID ) }}
-          onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
+          //onPress={() => { this.props.onPress( rowID ) }}
+          //onLongPress={() => { this.props.onLongPress( rowID, rowData ) }}>
+          //RIGHT If the parameter is on parent
+          onPress={this.props.onPress}
+          onLongPress={this.props.onLongPress}>
           <View style={styles.row}>
             <Text
               style={[styles.txt, rowData.status && styles.up, idx==rowID && {color: 'black'}]}>
